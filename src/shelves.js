@@ -5,11 +5,12 @@ import {Link} from 'react-router-dom'
 class Shelves extends React.Component {
 
 	handleChange = (e, book) => {
-		const shelf = e.target.value
-		console.log(book)
-		console.log(shelf)
-		book.shelf = shelf
-		this.props.changeShelf(book)	
+		const shelfy = e.target.value
+		console.log(shelfy, book)
+		book.shelf = shelfy
+		this.props.changeShelf(book)
+		
+	
 	}	
 
 
@@ -25,13 +26,13 @@ class Shelves extends React.Component {
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
-                         {this.props.books.filter((book) => (book.shelf === "currentlyReading")).map((book) =>(
+                         {this.props.books.filter((book) => (book.shelf === 'currentlyReading')).map((book) =>(
 		          	     <li key={book.id}>
 		                    <div className="book">
 		                      <div className="book-top">
 		                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
 		                        <div className="book-shelf-changer">
-		                          <select defaultValue={book.shelf} onChange={(e, book)=>{this.handleChange(e, book)}}>
+		                          <select defaultValue={book.shelf} onChange={(e)=>this.handleChange(e, book)}>
 		                            <option value="none" disabled>Move to...</option>
 		                            <option value="currentlyReading">Currently Reading</option>
 		                            <option value="wantToRead">Want to Read</option>
