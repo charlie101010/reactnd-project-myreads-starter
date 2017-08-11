@@ -3,6 +3,16 @@ import {Link} from 'react-router-dom'
 
 
 class Shelves extends React.Component {
+
+	handleChange = (e, book) => {
+		const shelf = e.target.value
+		console.log(book)
+		console.log(shelf)
+		book.shelf = shelf
+		this.props.changeShelf(book)	
+	}	
+
+
 	render(){
 		return(
 			<div className="list-books">
@@ -21,7 +31,7 @@ class Shelves extends React.Component {
 		                      <div className="book-top">
 		                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
 		                        <div className="book-shelf-changer">
-		                          <select>
+		                          <select defaultValue={book.shelf} onChange={(e, book)=>{this.handleChange(e, book)}}>
 		                            <option value="none" disabled>Move to...</option>
 		                            <option value="currentlyReading">Currently Reading</option>
 		                            <option value="wantToRead">Want to Read</option>
@@ -48,7 +58,7 @@ class Shelves extends React.Component {
 		                      <div className="book-top">
 		                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
 		                        <div className="book-shelf-changer">
-		                          <select>
+		                          <select defaultValue={book.shelf} onChange={this.handleChange}>
 		                            <option value="none" disabled>Move to...</option>
 		                            <option value="currentlyReading">Currently Reading</option>
 		                            <option value="wantToRead">Want to Read</option>
@@ -75,7 +85,7 @@ class Shelves extends React.Component {
 		                      <div className="book-top">
 		                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
 		                        <div className="book-shelf-changer">
-		                          <select>
+		                          <select defaultValue={book.shelf}>
 		                            <option value="none" disabled>Move to...</option>
 		                            <option value="currentlyReading">Currently Reading</option>
 		                            <option value="wantToRead">Want to Read</option>
