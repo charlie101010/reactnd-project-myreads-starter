@@ -24,6 +24,15 @@ class Search extends React.Component {
 	}
 
 
+    handleChange = (e, book) => {
+    const shelfy = e.target.value
+    book.shelf = shelfy
+    this.props.changeShelf(book)
+    
+  
+  } 
+
+
 	render(){
 		
 		let showingBooks
@@ -67,7 +76,7 @@ class Search extends React.Component {
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                         <div className="book-shelf-changer">
-                          <select defaultValue={book.shelf}>
+                          <select defaultValue={book.shelf} onChange={(e)=>this.handleChange(e, book)} >
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
