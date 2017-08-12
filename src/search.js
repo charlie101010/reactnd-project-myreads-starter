@@ -33,14 +33,14 @@ class Search extends React.Component {
 	}
 
 
-  
+
   getCollection=(query)=>{
      BooksAPI.search(this.state.query, 20).then((collection) => {
         this.setState({
           collection: collection
         })
 
-    })
+      })
 
   }
 
@@ -104,7 +104,6 @@ class Search extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-
               <ol className="books-grid">
               {showingBooks.map((book) => (
 
@@ -123,14 +122,14 @@ class Search extends React.Component {
                         </div>
                       </div>
                       <div className="book-title">{book.title}</div>
-                      <div className="book-authors">{book.authors}</div>
-                    </div>
-                  </li>
+                    <div className="book-authors">{book.authors}</div>
+                  </div>
+                </li>
               	))}
               </ol>
 
             </div>
-          </div>
+        </div>
 
          )
 
