@@ -48,8 +48,10 @@ class Search extends React.Component {
     handleChange = (e, book) => {
     const shelfy = e.target.value
     book.shelf = shelfy
-    this.props.newBook(book)
-    
+    this.props.newBook(book)  
+    this.setState(state=>({
+      collection: state.collection.filter(result=>result != book)
+    }))
   
   } 
 
