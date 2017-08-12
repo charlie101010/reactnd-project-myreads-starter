@@ -12,22 +12,43 @@ class Search extends React.Component {
 		books: PropTypes.array.isRequired,
 	}
 
+  
+
 
 	state = {
-		query: ''
-	}
+		query: '',
+    collection: []
+	 }
+
+
+
 
 	updateQuery = (e) => {
 		this.setState({
-			query: e.target.value
-		})
+		query: e.target.value
+     })
+      if(this.state.query)
+      this.getCollection(this.state.query)
+      
 	}
+
+
+  
+  getCollection=(query)=>{
+     BooksAPI.search(this.state.query, 20).then((collection) => {
+        this.setState({
+          collection: collection
+        })
+
+    })
+
+  }
 
 
     handleChange = (e, book) => {
     const shelfy = e.target.value
     book.shelf = shelfy
-    this.props.changeShelf(book)
+    this.props.newBook(book)
     
   
   } 
@@ -37,19 +58,33 @@ class Search extends React.Component {
 		
 		let showingBooks
 		if(this.state.query){
+
 			const match = new RegExp(escapeRegExp(this.state.query), 'i')
-			showingBooks = this.props.books.filter((book) => match.test(book.title))
+			showingBooks = this.state.collection.filter((book) => match.test(book.title))
+      showingBooks.sort(sortBy('title'))
 
 		} else{
-			showingBooks = this.props.books
+			showingBooks = this.state.collection
 		}
-		showingBooks.sort(sortBy('title'))
+		
+
+    // let showingBooks
+    // if(this.state.query){
+
+    //   const match = new RegExp(escapeRegExp(this.state.query), 'i')
+    //   showingBooks = this.props.books.filter((book) => match.test(book.title))
+
+    // } else{
+    //   showingBooks = this.props.books
+    // }
+    // showingBooks.sort(sortBy('title'))
 
 
 
 
 
 		return(
+
 	 		<div className="search-books">
             <div className="search-books-bar">
               <Link className="close-search" to='/'>Close</Link>
@@ -62,6 +97,7 @@ class Search extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
+                {console.log(this.state.query)}
                 <input type="text" value={this.state.query} onChange={this.updateQuery} placeholder="Search by title or author"/>
 
                 
@@ -71,12 +107,13 @@ class Search extends React.Component {
 
               <ol className="books-grid">
               {showingBooks.map((book) => (
+
           	     <li key={book.id}>
                     <div className="book">
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                         <div className="book-shelf-changer">
-                          <select defaultValue={book.shelf} onChange={(e)=>this.handleChange(e, book)} >
+                          <select defaultValue="none" onChange={(e)=>this.handleChange(e, book)} >
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
