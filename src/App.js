@@ -17,9 +17,14 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book) =>{
-    this.setState({
-      book: book
-    })
+    this.setState(state=>{
+      state.books.map(item=>{
+        if(item.name===book.name){
+          item: book
+        }else{
+          item: item}
+        })}
+    )
   }
 
   addBook = (book) =>{
