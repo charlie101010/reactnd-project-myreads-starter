@@ -25,6 +25,7 @@ class BooksApp extends React.Component {
           item: item}
         })}
     )
+    BooksAPI.update(book, book.shelf)
   }
 
   addBook = (book) =>{
