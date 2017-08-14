@@ -57,6 +57,15 @@ class Search extends React.Component {
   
   } 
 
+  defaultSelection = (book) => {
+    if(book.shelf){
+      console.log(book.shelf)
+      return book.shelf
+    }else{
+      return "none"
+    }
+  }
+
 
 	render(){
 		
@@ -116,7 +125,7 @@ class Search extends React.Component {
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                         <div className="book-shelf-changer">
-                          <select defaultValue={book.shelf} onChange={(e)=>this.handleChange(e, book)} >
+                          <select defaultValue={this.defaultSelection(book)} onChange={(e)=>this.handleChange(e, book)} >
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
