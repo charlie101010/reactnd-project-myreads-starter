@@ -14,7 +14,6 @@ class Search extends React.Component {
 
   
 
-
 	state = {
 		query: '',
     collection: []
@@ -37,7 +36,7 @@ class Search extends React.Component {
   getCollection=(query)=>{
      BooksAPI.search(this.state.query, 20).then((collection) => {
         this.setState({
-          collection: collection
+          collection: collection.map(searchResult => (this.props.books.find((book) => book.id === searchResult.id) || searchResult))
         })
 
       })
@@ -45,13 +44,16 @@ class Search extends React.Component {
   }
 
 
-    handleChange = (e, book) => {
-    const shelfy = e.target.value
-    book.shelf = shelfy
-    this.props.newBook(book)  
-    this.setState(state=>({
-      collection: state.collection.filter(result=>result != book)
-    }))
+  handleChange = (e, book) => {
+      const shelfy = e.target.value
+      book.shelf = shelfy
+      BooksAPI.update(book, book.shelf)
+      // this.setState(state=>({
+      //   collection: state.collection.filter(result=>result != book)
+      // }))
+      this.props.newBook(book)  
+
+    
   
   } 
 
@@ -114,7 +116,7 @@ class Search extends React.Component {
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                         <div className="book-shelf-changer">
-                          <select defaultValue="none" onChange={(e)=>this.handleChange(e, book)} >
+                          <select defaultValue={book.shelf} onChange={(e)=>this.handleChange(e, book)} >
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
